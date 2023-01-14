@@ -21,11 +21,8 @@ const Index = ({ products }: { products: CartsType }) => {
         <IconButton onClick={() => router.back()}>
           <ArrowBack height={10} />
         </IconButton>
-        <Typography textAlign="center">
-          Detail Carts ID : {"  "}
-          <Typography component="span" fontWeight="bold">
-            {products.id}
-          </Typography>
+        <Typography textAlign="center" fontWeight="bold">
+          Detail Carts Product : {products.id}
           <Grid container justifyContent="space-between" marginTop={2}>
             <Typography>User: {products.userId}</Typography>
             <Typography>Total: {products.total}</Typography>

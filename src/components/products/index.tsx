@@ -36,7 +36,7 @@ const Products = ({ products }: { products: ProductInterface }) => {
   const [categoriesFilter, setCategoriesFilter] = useState<string>("");
   const [rowPerPage, setRowPerPage] = useState<number>(0);
   const [page, setPage] = useState<number>(0);
-  console.log(products.products, "@products");
+
   const searchProducts = async (val: string) => {
     const getSearchData = await fetch(
       `${baseUrl}${endPoint.products}${endPoint.search}?q=${val}`
@@ -85,7 +85,7 @@ const Products = ({ products }: { products: ProductInterface }) => {
   };
 
   const handleChangePage = async (
-    event: React.MouseEvent<HTMLButtonElement> | null,
+    _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
     setPage(newPage);
@@ -185,7 +185,7 @@ const Products = ({ products }: { products: ProductInterface }) => {
                 label="Brand"
                 onChange={handleCategoriesChange}
               >
-                {categories.map((data, i) => (
+                {categories.map((_, i) => (
                   <MenuItem key={i} value={categories[i]}>
                     {categories[i]}
                   </MenuItem>

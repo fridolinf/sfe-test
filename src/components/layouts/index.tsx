@@ -10,8 +10,8 @@ import {
 import dynamic from "next/dynamic";
 import { useState } from "react";
 
-const ProductsPage = dynamic(() => import("@/pages/products"));
-const CartsPage = dynamic(() => import("@/pages/carts"));
+const ProductsPage = dynamic(() => import("@/components/products"));
+const CartsPage = dynamic(() => import("@/components/carts"));
 
 const drawerWidth = 240;
 const Layout = ({ productData, cartsData }: LayoutInterface) => {
@@ -27,17 +27,16 @@ const Layout = ({ productData, cartsData }: LayoutInterface) => {
   ]);
   const [menuPage, setMenuPage] = useState<number>(0);
 
-  const updateFieldChanged =
-    (selectVal: boolean, index: number) => (e: any) => {
-      let newMenuList = menuList.map((data, i) => {
-        return {
-          name: data.name,
-          isSelected: data.isSelected === selectVal,
-        };
-      });
-      setMenuList(newMenuList);
-      setMenuPage(index);
-    };
+  const updateFieldChanged = (selectVal: boolean, index: number) => () => {
+    let newMenuList = menuList.map((data) => {
+      return {
+        name: data.name,
+        isSelected: data.isSelected === selectVal,
+      };
+    });
+    setMenuList(newMenuList);
+    setMenuPage(index);
+  };
 
   return (
     <Box sx={{ display: "flex" }}>

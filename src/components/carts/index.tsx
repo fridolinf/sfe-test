@@ -21,16 +21,16 @@ import { CartsType } from "@/Interfaces/api/Carts/CartTypes";
 import { useRouter } from "next/router";
 
 const Carts = ({ carts }: { carts: CartsInterface }) => {
-  console.log(carts, "@carts");
   const router = useRouter();
   const [cartsData, setCartsData] = useState<CartsType[] | []>(carts.carts);
   const [rowPerPage, setRowPerPage] = useState<number>(0);
   const [page, setPage] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
+
   const onClickData = (idCarts: string) => {
     setLoading(true);
     router.push({
-      pathname: "/carts/[id]",
+      pathname: "/detailCarts/[id]",
       query: {
         id: idCarts,
       },
@@ -38,7 +38,7 @@ const Carts = ({ carts }: { carts: CartsInterface }) => {
     setLoading(false);
   };
   const handleChangePage = async (
-    event: React.MouseEvent<HTMLButtonElement> | null,
+    _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
     setPage(newPage);
