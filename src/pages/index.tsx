@@ -1,13 +1,14 @@
-import { ThemeProvider } from "@emotion/react";
-import { initTheme } from "@/utils/theme";
-import { ProductInterface } from "@/Interfaces/api/Products/ProductInterface";
-import { CartsInterface } from "@/Interfaces/api/Carts/CartsInterface";
-import { LayoutInterface } from "@/Interfaces/layout/LayoutInterface";
 import { baseUrl } from "@/common/api/baseUrl";
 import { endPoint } from "@/common/api/endpoint";
+import { CartsInterface } from "@/Interfaces/api/Carts/CartsInterface";
+import { ProductInterface } from "@/Interfaces/api/Products/ProductInterface";
+import { LayoutInterface } from "@/Interfaces/layout/LayoutInterface";
+import { initTheme } from "@/utils/theme";
+import { ThemeProvider } from "@emotion/react";
 import dynamic from "next/dynamic";
 
-const Layouts = dynamic(() => import("@/layouts"));
+const Layouts = dynamic(() => import("@/components/layouts"));
+
 export default function Home({ productData, cartsData }: LayoutInterface) {
   return (
     <ThemeProvider theme={initTheme}>

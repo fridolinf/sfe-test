@@ -1,7 +1,7 @@
-import { CartsType } from "../api/Carts/CartTypes";
-import { ProductType } from "../api/Products/ProductType";
+import { CartsInterface } from "../api/Carts/CartsInterface";
+import { ProductInterface } from "../api/Products/ProductInterface";
 
 export interface LayoutInterface {
-  productData: ProductType[];
-  cartsData: CartsType[];
+  productData: ProductInterface;
+  cartsData: CartsInterface;
 }

@@ -1,7 +1,7 @@
-import { ProductInterface } from "@/Interfaces/api/Products/ProductInterface";
-import React, { useEffect, useState } from "react";
 import { baseUrl } from "@/common/api/baseUrl";
 import { endPoint } from "@/common/api/endpoint";
+import { ProductInterface } from "@/Interfaces/api/Products/ProductInterface";
+import { ProductType } from "@/Interfaces/api/Products/ProductType";
 import {
   Box,
   Button,
@@ -23,10 +23,11 @@ import {
   Typography,
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
+import React, { useEffect, useState } from "react";
 
-const Products = ({ products }: ProductInterface) => {
-  const [productsData, setProductsData] = useState<ProductInterface | []>(
-    products
+const Products = ({ products }: { products: ProductInterface }) => {
+  const [productsData, setProductsData] = useState<ProductType[] | []>(
+    products.products
   );
   const [categories, setCategories] = useState([]);
   const [titleFilter, setTitleFilter] = useState<string>("");
@@ -35,14 +36,14 @@ const Products = ({ products }: ProductInterface) => {
   const [categoriesFilter, setCategoriesFilter] = useState<string>("");
   const [rowPerPage, setRowPerPage] = useState<number>(0);
   const [page, setPage] = useState<number>(0);
-
+  console.log(products.products, "@products");
   const searchProducts = async (val: string) => {
     const getSearchData = await fetch(
       `${baseUrl}${endPoint.products}${endPoint.search}?q=${val}`
     );
     const listData: ProductInterface = await getSearchData.json();
 
-    setProductsData(listData);
+    setProductsData(listData.products);
   };
 
   const fetchCategories = async () => {
@@ -70,12 +71,12 @@ const Products = ({ products }: ProductInterface) => {
   };
 
   const applyFilter = async () => {
-    const filterData = productsData.products.filter((data) => {
+    const filterData = productsData.filter((data) => {
       if (
         data.title === titleFilter ||
         data.brand === brandFilter ||
         data.price.toString() === priceFilter ||
-        data.categories === categoriesFilter
+        data.category === categoriesFilter
       ) {
         return data;
       }
@@ -95,7 +96,7 @@ const Products = ({ products }: ProductInterface) => {
       `
     );
     const products: ProductInterface = await res.json();
-    setProductsData(products);
+    setProductsData(products.products);
   };
 
   useEffect(() => {
@@ -129,11 +130,12 @@ const Products = ({ products }: ProductInterface) => {
                 label="Title"
                 onChange={handleTitleChange}
               >
-                {products.products.map((data) => (
-                  <MenuItem key={data.id} value={data.title}>
-                    {data.title}
-                  </MenuItem>
-                ))}
+                {products &&
+                  products.products.map((data) => (
+                    <MenuItem key={data.id} value={data.title}>
+                      {data.title}
+                    </MenuItem>
+                  ))}
                 {/* </div> */}
               </Select>
             </FormControl>
@@ -147,11 +149,12 @@ const Products = ({ products }: ProductInterface) => {
                 label="Brand"
                 onChange={handleBrandChange}
               >
-                {products.products.map((data) => (
-                  <MenuItem key={data.id} value={data.brand}>
-                    {data.brand}
-                  </MenuItem>
-                ))}
+                {products &&
+                  products.products.map((data) => (
+                    <MenuItem key={data.id} value={data.brand}>
+                      {data.brand}
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
           </Grid>
@@ -164,11 +167,12 @@ const Products = ({ products }: ProductInterface) => {
                 label="Title"
                 onChange={handlePriceChange}
               >
-                {products.products.map((data) => (
-                  <MenuItem key={data.id} value={data.price}>
-                    {data.price}
-                  </MenuItem>
-                ))}
+                {products &&
+                  products.products.map((data) => (
+                    <MenuItem key={data.id} value={data.price}>
+                      {data.price}
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
           </Grid>
@@ -202,7 +206,7 @@ const Products = ({ products }: ProductInterface) => {
       </Box>
 
       <TableContainer sx={{ marginTop: 2 }} component={Paper}>
-        {productsData.products.length > 0 ? (
+        {productsData.length > 0 ? (
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -215,7 +219,7 @@ const Products = ({ products }: ProductInterface) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {productsData.products.map((data, index) => (
+              {productsData.map((data, index) => (
                 <TableRow
                   key={data.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -244,7 +248,7 @@ const Products = ({ products }: ProductInterface) => {
             <TableFooter>
               <TableRow>
                 <TablePagination
-                  count={productsData.total}
+                  count={products.total}
                   rowsPerPageOptions={[10]}
                   rowsPerPage={10}
                   labelRowsPerPage=""

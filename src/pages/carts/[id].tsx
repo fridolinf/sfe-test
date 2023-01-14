@@ -1,3 +1,7 @@
+import { baseUrl } from "@/common/api/baseUrl";
+import { endPoint } from "@/common/api/endpoint";
+import { CartsType } from "@/Interfaces/api/Carts/CartTypes";
+import { ArrowBack } from "@mui/icons-material";
 import {
   Box,
   Card,
@@ -7,14 +11,9 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import React from "react";
 import { useRouter } from "next/router";
-import { baseUrl } from "@/common/api/baseUrl";
-import { endPoint } from "@/common/api/endpoint";
-import { CartsType } from "@/Interfaces/api/Carts/CartTypes";
-import { ArrowBack } from "@mui/icons-material";
 
-const Index = ({ products }: CartsType) => {
+const Index = ({ products }: { products: CartsType }) => {
   const router = useRouter();
   return (
     <Container fixed>
@@ -27,41 +26,31 @@ const Index = ({ products }: CartsType) => {
           <Typography component="span" fontWeight="bold">
             {products.id}
           </Typography>
-          <Grid container justifyContent="space-around" marginTop={2}>
+          <Grid container justifyContent="space-between" marginTop={2}>
+            <Typography>User: {products.userId}</Typography>
+            <Typography>Total: {products.total}</Typography>
+            <Typography>Total Products: {products.totalProducts}</Typography>
             <Typography>
-              User:{" "}
-              <Typography component="span" fontWeight="bold">
-                {products.userId}
-              </Typography>
-            </Typography>
-            <Typography>
-              Total:{" "}
-              <Typography component="span" fontWeight="bold">
-                {products.total}
-              </Typography>
-            </Typography>
-            <Typography>
-              Total Products:{" "}
-              <Typography component="span" fontWeight="bold">
-                {products.totalProducts}
-              </Typography>
-            </Typography>
-            <Typography>
-              Discounted Total:{" "}
-              <Typography component="span" fontWeight="bold">
-                {products.discountedTotal}
-              </Typography>
+              Discounted Total: {products.discountedTotal}
             </Typography>
           </Grid>
+          <Typography
+            textAlign="center"
+            marginTop={3}
+            fontSize={24}
+            fontWeight="bold"
+          >
+            LIST PRODUCTS
+          </Typography>
           <Grid
             container
-            justifyContent="space-around"
-            columnSpacing={4}
+            justifyContent="space-evenly"
+            columnSpacing={3}
             rowSpacing={4}
             marginTop={5}
           >
             {products.products.map((data) => (
-              <Card key={data.id} sx={{ marginTop: 3 }}>
+              <Card key={data.id} sx={{ marginTop: 1 }}>
                 <CardContent>
                   <Typography
                     textAlign="center"

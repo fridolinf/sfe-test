@@ -13,7 +13,6 @@ export type ProductType = {
   category?: string;
   thumbnail?: string;
   images?: string[] | [];
-
   discountedTotal?: number;
   userId?: number;
   totalProducts?: number;

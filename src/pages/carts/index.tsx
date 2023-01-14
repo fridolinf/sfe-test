@@ -1,8 +1,6 @@
-import { CartsInterface } from "@/Interfaces/api/Carts/CartsInterface";
-import React, { useState } from "react";
-
 import { baseUrl } from "@/common/api/baseUrl";
 import { endPoint } from "@/common/api/endpoint";
+import { CartsInterface } from "@/Interfaces/api/Carts/CartsInterface";
 import {
   Box,
   CircularProgress,
@@ -17,16 +15,19 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
+import React, { useState } from "react";
 
+import { CartsType } from "@/Interfaces/api/Carts/CartTypes";
 import { useRouter } from "next/router";
 
-const Carts = ({ carts }: CartsInterface) => {
+const Carts = ({ carts }: { carts: CartsInterface }) => {
+  console.log(carts, "@carts");
   const router = useRouter();
-  const [cartsData, setCartsData] = useState<CartsInterface | []>(carts);
+  const [cartsData, setCartsData] = useState<CartsType[] | []>(carts.carts);
   const [rowPerPage, setRowPerPage] = useState<number>(0);
   const [page, setPage] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
-  const onClickData = (idCarts: number) => {
+  const onClickData = (idCarts: string) => {
     setLoading(true);
     router.push({
       pathname: "/carts/[id]",
@@ -48,7 +49,7 @@ const Carts = ({ carts }: CartsInterface) => {
       `
     );
     const carts: CartsInterface = await res.json();
-    setCartsData(carts);
+    setCartsData(carts.carts);
   };
   return (
     <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
@@ -69,11 +70,14 @@ const Carts = ({ carts }: CartsInterface) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {cartsData.carts.map((data) => (
+              {cartsData.map((data) => (
                 <TableRow
                   key={data.id}
                   onClick={() => onClickData(data.id)}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    cursor: "pointer",
+                  }}
                 >
                   <TableCell component="th" scope="row">
                     {data.id}
@@ -96,8 +100,7 @@ const Carts = ({ carts }: CartsInterface) => {
             <TableFooter>
               <TableRow>
                 <TablePagination
-                  // colSpan={5}
-                  count={cartsData.total}
+                  count={carts.total}
                   rowsPerPageOptions={[5]}
                   rowsPerPage={5}
                   labelRowsPerPage=""
